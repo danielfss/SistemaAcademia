@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import br.com.compasso.academia.app.Menu;
 import br.com.compasso.academia.app.Usuario;
 
 public class UsuarioControle {
@@ -39,19 +40,26 @@ public class UsuarioControle {
             pst.setString(3, user.getTurno());
             pst.setString(4, user.getMatricula());
             pst.executeUpdate();
-            System.out.println("Usuário cadastrado com sucesso!");
+            System.out.println("Usuário cadastrado com sucesso!\n");
         } catch (SQLException ex) {
             System.out.println("Erro ao cadastrar usuário.\nErro: " + ex);
         } finally {
             conecta.desconectar();
-            
         }
-    }
+        Menu.menuInicial();
+	}
+	
+	public static void pegarMatricula() {
+		System.out.println("Digite a matricula a ser pesquisada: ");
+        String matricula = leitura.nextLine();
+        consultarUsuario();
+	}
 	
 	public static void consultarUsuario() {
+		Usuario user = new Usuario();
 		ConectaBanco conecta = new ConectaBanco();
 		conecta.conectar();
-		conecta.executarSQL("SELECT * FROM usuarios WHERE matricula='042131009'");
+		conecta.executarSQL("SELECT * FROM usuarios WHERE matricula='"+user.getMatricula()+"'");
         
         try {
         	conecta.rs.first();
@@ -87,10 +95,14 @@ public class UsuarioControle {
     }
     
     public static void deletarUsuario() {
-    	ConectaBanco service = new ConectaBanco();
-        service.conectar();
-        service.executarSQL("DELETE FROM usuarios WHERE matricula='042131009'");
-        service.desconectar();
+    	System.out.println("Digite a matricula a ser pesquisada: ");
+        String matricula = leitura.nextLine();
+
+        Usuario user = new Usuario();
+    	ConectaBanco conecta = new ConectaBanco();
+    	conecta.conectar();
+        conecta.executarSQL("DELETE FROM usuarios WHERE matricula='"+user.getMatricula()+"''");
+        conecta.desconectar();
     }
     
 }
