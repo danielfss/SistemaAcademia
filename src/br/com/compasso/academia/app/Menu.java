@@ -18,11 +18,11 @@ public class Menu {
 
 		switch (opcao.toLowerCase()) {
 		case "a":
-			UsuarioControle.cadastro();
+			UsuarioControle.cadastrarUsuario();
 			break;
 
 		case "b":
-			UsuarioControle.pegarMatricula();
+			UsuarioControle.consultarUsuario();
 			break;
 
 		case "c":

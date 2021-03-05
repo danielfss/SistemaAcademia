@@ -2,107 +2,126 @@ package br.com.compasso.academia.services;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.Scanner;
 
 import br.com.compasso.academia.app.Menu;
-import br.com.compasso.academia.app.Usuario;
 
 public class UsuarioControle {
 
-	
 	private static Scanner leitura = new Scanner(System.in);
-	
-	public static void cadastro() {
-		
-		System.out.print("Digite o nome do aluno: ");
-        String nome = leitura.nextLine();
 
-        System.out.print("\nDigite o CPF:\n");
-        String cpf = leitura.nextLine();
-        
-        System.out.println("Digite o turno escolhido: matutino - vespertino - noturno\n");
-        String turno = leitura.nextLine();
-        
-        Usuario user = new Usuario(nome, cpf, turno);
-        cadastrarUsuario(user);
-
-        System.out.println("Aluno(a) " + nome + " foi cadastrado(a) com sucesso e sua matrícula é: " + user.getMatricula());
-	}
-	
-	public static void cadastrarUsuario(Usuario user) {
-        ConectaBanco conecta = new ConectaBanco();
-        conecta.conectar();
-        
-        try {
-        	PreparedStatement pst = conecta.conn.prepareStatement("INSERT INTO usuarios (nome, cpf, turno, matricula) VALUES (?,?,?,?)");
-        	pst.setString(1, user.getNome());
-            pst.setString(2, user.getCpf());
-            pst.setString(3, user.getTurno());
-            pst.setString(4, user.getMatricula());
-            pst.executeUpdate();
-            System.out.println("Usuário cadastrado com sucesso!\n");
-        } catch (SQLException ex) {
-            System.out.println("Erro ao cadastrar usuário.\nErro: " + ex);
-        } finally {
-            conecta.desconectar();
-        }
-        Menu.menuInicial();
-	}
-	
-	public static void pegarMatricula() {
-		System.out.println("Digite a matricula a ser pesquisada: ");
-        String matricula = leitura.nextLine();
-        consultarUsuario();
-	}
-	
-	public static void consultarUsuario() {
-		Usuario user = new Usuario();
+	public static void cadastrarUsuario() {
 		ConectaBanco conecta = new ConectaBanco();
 		conecta.conectar();
-		conecta.executarSQL("SELECT * FROM usuarios WHERE matricula='"+user.getMatricula()+"'");
-        
-        try {
-        	conecta.rs.first();
-            System.out.println("Nome: "+conecta.rs.getString("nome")+
-                        	   " CPF: "+conecta.rs.getString("cpf")+
-                        	   " Turno: "+conecta.rs.getString("turno")+
-                        	   " Matrícula: "+conecta.rs.getString("matricula"));
-        } catch (SQLException ex) {
-            System.out.println("Falha ao pesquisar dados.\nErro: " + ex);
-        } finally {
-        	conecta.desconectar();
-        }
-    }
-    
-    public static void listarUsuarios() {
-        ConectaBanco service = new ConectaBanco();
-        service.conectar();
-        service.executarSQL("SELECT * FROM usuarios");
-        
-        try {
-            service.rs.first();
-            do {
-                System.out.println("Nome: "+service.rs.getString("nome")+
-                        " CPF: "+service.rs.getString("cpf")+
-                        " Turno: "+service.rs.getString("turno")+
-                        " Matrícula: "+service.rs.getString("matricula"));
-            } while(service.rs.next());
-        } catch (SQLException ex) {
-            System.out.println("Erro ao pesquisar dados :(");
-        } finally {
-            service.desconectar();
-        }
-    }
-    
-    public static void deletarUsuario() {
-    	System.out.println("Digite a matricula a ser pesquisada: ");
-        String matricula = leitura.nextLine();
+		System.out.print("Digite o nome do aluno: ");
+		String nome = leitura.nextLine();
 
-        Usuario user = new Usuario();
-    	ConectaBanco conecta = new ConectaBanco();
-    	conecta.conectar();
-        conecta.executarSQL("DELETE FROM usuarios WHERE matricula='"+user.getMatricula()+"''");
-        conecta.desconectar();
-    }
-    
+		System.out.print("\nDigite o CPF:\n");
+		String cpf = leitura.nextLine();
+		
+		System.out.println("Digite a letra referente ao turno o turno: "
+				+ "\nM - matutino"
+				+ "\nV - vespertino"
+				+ "\nN - noturno\n");
+		String turno = leitura.nextLine();
+		switch(turno.toLowerCase()) {
+		case "m":
+		case "matutino":
+			turno = "matutino";
+			System.out.println("O turno escolhido foi: " + turno);
+			break;
+		case "v":
+		case "vespertino":
+			turno = "vespertino";
+			System.out.println("O turno escolhido foi: " + turno);
+			break;
+		case "N":
+		case "noturno":
+			turno = "noturno";
+			System.out.println("O turno escolhido foi: " + turno);
+			break;
+		default:
+			System.out.println("Opção inválida, escolha um dos turnos disponíveis!");
+		}
+		
+		String matricula = String.valueOf(new Random().nextInt(999999));
+		
+		try {
+			PreparedStatement pst = conecta.conn
+					.prepareStatement("INSERT INTO usuarios (nome, cpf, turno, matricula) VALUES (?,?,?,?)");
+			pst.setString(1, nome);
+			pst.setString(2, cpf);
+			pst.setString(3, turno);
+			pst.setString(4, matricula);
+			pst.executeUpdate();
+			System.out.println("Usuário(a) " + nome + " foi cadastrado(a) com sucesso.\n"
+					+ "O nosso sistema gerou o seu número de matrícula: " + matricula);
+		} catch (SQLException ex) {
+			System.out.println("Erro ao cadastrar usuário.\nErro: " + ex);
+		} finally {
+			conecta.desconectar();
+			Menu.menuInicial();
+		}
+	}
+
+	public static void consultarUsuario() {
+
+		System.out.println("Digite a matricula a ser pesquisada: ");
+		String matricula = leitura.nextLine();
+
+		ConectaBanco conecta = new ConectaBanco();
+		conecta.conectar();
+		conecta.executarSQL("SELECT * FROM usuarios WHERE matricula='" + matricula + "'");
+
+		try {
+			conecta.rs.first();
+			System.out.println("Nome: " + conecta.rs.getString("nome") + " CPF: " + conecta.rs.getString("cpf")
+					+ " Turno: " + conecta.rs.getString("turno") + " Matrícula: " + conecta.rs.getString("matricula"));
+		} catch (SQLException ex) {
+			System.out.println("Falha ao pesquisar dados.\nErro: " + ex);
+		} finally {
+			conecta.desconectar();
+			Menu.menuInicial();
+		}
+	}
+
+	public static void listarUsuarios() {
+		ConectaBanco conecta = new ConectaBanco();
+		conecta.conectar();
+		conecta.executarSQL("SELECT * FROM usuarios");
+
+		try {
+			conecta.rs.first();
+			do {
+				System.out.println(
+						"Nome: " + conecta.rs.getString("nome") + " | CPF: " + conecta.rs.getString("cpf") + " | Turno: "
+								+ conecta.rs.getString("turno") + " | Matrícula: " + conecta.rs.getString("matricula"));
+			} while (conecta.rs.next());
+		} catch (SQLException ex) {
+			System.out.println("Erro ao pesquisar dados :(");
+		} finally {
+			conecta.desconectar();
+			Menu.menuInicial();
+		}
+	}
+
+	public static void deletarUsuario() {
+		ConectaBanco conecta = new ConectaBanco();
+		conecta.conectar();
+		try {
+			PreparedStatement pst = conecta.conn.prepareStatement("DELETE FROM usuarios WHERE matricula=?");
+			System.out.println("Digite a matricula a ser deletada: ");
+			String matricula = leitura.nextLine();
+			pst.setString(1, matricula);
+			pst.executeUpdate();
+			System.out.println("Este usuário foi deletado com sucesso!\n");
+		} catch (SQLException ex) {
+			System.out.println("Erro ao deletar dados.\nErro: " + ex);
+		} finally {
+			conecta.desconectar();
+			Menu.menuInicial();
+		}
+	}
+
 }
