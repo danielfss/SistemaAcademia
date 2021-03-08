@@ -2,87 +2,59 @@ package br.com.compasso.academia.services;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Random;
 import java.util.Scanner;
 
-import br.com.compasso.academia.app.Menu;
+import javax.swing.JOptionPane;
+
+import br.com.compasso.academia.app.Usuario;
 
 public class UsuarioControle {
 
 	private static Scanner leitura = new Scanner(System.in);
 
-	public static void cadastrarUsuario() {
+	public static void cadastrarUsuario(Usuario usuario) {
 		ConectaBanco conecta = new ConectaBanco();
 		conecta.conectar();
-		System.out.print("Digite o nome do aluno: ");
-		String nome = leitura.nextLine();
-
-		System.out.print("\nDigite o CPF:\n");
-		String cpf = leitura.nextLine();
-		
-		System.out.println("Digite a letra referente ao turno o turno: "
-				+ "\nM - matutino"
-				+ "\nV - vespertino"
-				+ "\nN - noturno\n");
-		String turno = leitura.nextLine();
-		switch(turno.toLowerCase()) {
-		case "m":
-		case "matutino":
-			turno = "matutino";
-			System.out.println("O turno escolhido foi: " + turno);
-			break;
-		case "v":
-		case "vespertino":
-			turno = "vespertino";
-			System.out.println("O turno escolhido foi: " + turno);
-			break;
-		case "N":
-		case "noturno":
-			turno = "noturno";
-			System.out.println("O turno escolhido foi: " + turno);
-			break;
-		default:
-			System.out.println("Opção inválida, escolha um dos turnos disponíveis!");
-		}
-		
-		String matricula = String.valueOf(new Random().nextInt(999999));
 		
 		try {
 			PreparedStatement pst = conecta.conn
 					.prepareStatement("INSERT INTO usuarios (nome, cpf, turno, matricula) VALUES (?,?,?,?)");
-			pst.setString(1, nome);
-			pst.setString(2, cpf);
-			pst.setString(3, turno);
-			pst.setString(4, matricula);
+			pst.setString(1, usuario.getNome());
+			pst.setString(2, usuario.getCpf());
+			pst.setString(3, usuario.getTurno());
+			pst.setString(4, usuario.getMatricula());
 			pst.executeUpdate();
-			System.out.println("Usuário(a) " + nome + " foi cadastrado(a) com sucesso.\n"
-					+ "O nosso sistema gerou o seu número de matrícula: " + matricula);
+			System.out.println("Usuário(a) " + usuario.getNome() + " foi cadastrado(a) com sucesso.\n"
+					+ "O nosso sistema gerou o seu número de matrícula: " + usuario.getMatricula());
+			JOptionPane.showMessageDialog(null, "Usuário(a) " + usuario.getNome() + " foi cadastrado(a) com sucesso.\n"
+					+ "O nosso sistema gerou o seu número de matrícula: " + usuario.getMatricula());
 		} catch (SQLException ex) {
 			System.out.println("Erro ao cadastrar usuário.\nErro: " + ex);
+			JOptionPane.showMessageDialog(null, "Erro ao cadastrar usuário.");
 		} finally {
 			conecta.desconectar();
-			Menu.menuInicial();
 		}
 	}
 
-	public static void consultarUsuario() {
-
-		System.out.println("Digite a matricula a ser pesquisada: ");
-		String matricula = leitura.nextLine();
+	public static void consultarUsuario(Usuario usuario) {
 
 		ConectaBanco conecta = new ConectaBanco();
 		conecta.conectar();
-		conecta.executarSQL("SELECT * FROM usuarios WHERE matricula='" + matricula + "'");
+		conecta.executarSQL("SELECT * FROM usuarios WHERE matricula='" + usuario.getMatricula() + "'");
 
 		try {
 			conecta.rs.first();
-			System.out.println("Nome: " + conecta.rs.getString("nome") + " CPF: " + conecta.rs.getString("cpf")
-					+ " Turno: " + conecta.rs.getString("turno") + " Matrícula: " + conecta.rs.getString("matricula"));
+			usuario.setNome(conecta.rs.getString("nome"));
+			usuario.setCpf(conecta.rs.getString("cpf"));
+			usuario.setTurno(conecta.rs.getString("turno"));
+			System.out.println("Nome: " + usuario.getNome() + " | CPF: " + usuario.getCpf()
+					+ " | Turno: " + usuario.getTurno() + " | Matrícula: " + usuario.getMatricula());
+			
 		} catch (SQLException ex) {
 			System.out.println("Falha ao pesquisar dados.\nErro: " + ex);
+			JOptionPane.showMessageDialog(null, "Erro ao cadastrar usuário.");
 		} finally {
 			conecta.desconectar();
-			Menu.menuInicial();
 		}
 	}
 
@@ -102,7 +74,6 @@ public class UsuarioControle {
 			System.out.println("Erro ao pesquisar dados :(");
 		} finally {
 			conecta.desconectar();
-			Menu.menuInicial();
 		}
 	}
 
@@ -120,7 +91,6 @@ public class UsuarioControle {
 			System.out.println("Erro ao deletar dados.\nErro: " + ex);
 		} finally {
 			conecta.desconectar();
-			Menu.menuInicial();
 		}
 	}
 
