@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class TelaPrincipal extends JFrame implements ActionListener {
 
@@ -67,18 +67,18 @@ public class TelaPrincipal extends JFrame implements ActionListener {
 		listar.addActionListener(this);
 		listar.setBounds(350, 130, 200, 60);
 		add(listar);
-		
+
 		// BOTÃO DELETAR
 		deletar.setFont(fonte);
 		deletar.addActionListener(this);
 		deletar.setBounds(350, 200, 200, 60);
 		add(deletar);
-		
 
-		listar.setFont(fonte);
-		listar.addActionListener(this);
-		listar.setBounds(350, 130, 200, 60);
-		add(listar);
+		// BOTÃO SAIR
+		sair.setFont(fonte);
+		sair.addActionListener(this);
+		sair.setBounds(350, 270, 200, 60);
+		add(sair);
 
 		// LEGENDA
 		legenda.setFont(fonte);
@@ -87,11 +87,12 @@ public class TelaPrincipal extends JFrame implements ActionListener {
 
 		// JANELA
 		setTitle("Sistema - Academia Compasso UOL");
-		setSize(600, 350);
+		setSize(600, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ao cliccar no "x", ele finaliza completamente o programa.
 		setLocationRelativeTo(null); // Centraliza a abertura do programa na tela
 		setResizable(false); // Retira o redimensionamento da tela.
 		setVisible(true); // Torna a tela visível
+
 	}
 
 }

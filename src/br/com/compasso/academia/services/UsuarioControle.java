@@ -2,6 +2,8 @@ package br.com.compasso.academia.services;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -52,29 +54,60 @@ public class UsuarioControle {
 			
 		} catch (SQLException ex) {
 			System.out.println("Falha ao pesquisar dados.\nErro: " + ex);
-			JOptionPane.showMessageDialog(null, "Erro ao cadastrar usuário.");
+			JOptionPane.showMessageDialog(null, "Erro ao pesquisar usuário.");
 		} finally {
 			conecta.desconectar();
 		}
 	}
 
-	public static void listarUsuarios() {
+//	public static void listarUsuarios() {
+//		ConectaBanco conecta = new ConectaBanco();
+//		conecta.conectar();
+//		conecta.executarSQL("SELECT * FROM usuarios");
+//		List lista = new ArrayList<>();
+//		try {
+//			conecta.rs.first();
+//			do {
+//				Usuario usuario = new Usuario();
+//				usuario.setNome(conecta.rs.getString("nome"));
+//				usuario.setCpf(conecta.rs.getString("cpf"));
+//				usuario.setTurno(conecta.rs.getString("turno"));
+//				usuario.setMatricula(conecta.rs.getString("matricula"));
+////				System.out.println(
+////						"Nome: " + conecta.rs.getString("nome") + " | CPF: " + conecta.rs.getString("cpf") + " | Turno: "
+////								+ conecta.rs.getString("turno") + " | Matrícula: " + conecta.rs.getString("matricula"));
+//				lista.add(usuario);
+//			} while (conecta.rs.next());
+//		} catch (SQLException ex) {
+//			System.out.println("Erro ao pesquisar dados :(");
+//		} finally {
+//			conecta.desconectar();
+//		}
+//	}
+	
+	public static List<Usuario> read() {
 		ConectaBanco conecta = new ConectaBanco();
 		conecta.conectar();
-		conecta.executarSQL("SELECT * FROM usuarios");
-
+		List<Usuario> usuarios = new ArrayList<>();
 		try {
-			conecta.rs.first();
-			do {
-				System.out.println(
-						"Nome: " + conecta.rs.getString("nome") + " | CPF: " + conecta.rs.getString("cpf") + " | Turno: "
-								+ conecta.rs.getString("turno") + " | Matrícula: " + conecta.rs.getString("matricula"));
-			} while (conecta.rs.next());
+			conecta.executarSQL("SELECT * FROM usuarios");
+			while (conecta.rs.next()) {
+				Usuario usuario = new Usuario();
+				usuario.setNome(conecta.rs.getString("nome"));
+				usuario.setCpf(conecta.rs.getString("cpf"));
+				usuario.setTurno(conecta.rs.getString("turno"));
+				usuario.setMatricula(conecta.rs.getString("matricula"));
+				usuarios.add(usuario);
+				System.out.println("Usuário listado com sucesso!");
+			}
+			
 		} catch (SQLException ex) {
 			System.out.println("Erro ao pesquisar dados :(");
 		} finally {
 			conecta.desconectar();
 		}
+		return usuarios;
+		
 	}
 
 	public static void deletarUsuario() {

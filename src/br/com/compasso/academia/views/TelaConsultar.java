@@ -39,7 +39,8 @@ public class TelaConsultar extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == pesquisar) {
 			if (matriculaCampo.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Você não digitou nenhuma matricula, preencha o campo com a matricula desejada!");
+				JOptionPane.showMessageDialog(null,
+						"Você não digitou nenhuma matricula, preencha o campo com a matricula desejada!");
 				new TelaConsultar();
 				this.dispose();
 			} else {
@@ -53,7 +54,7 @@ public class TelaConsultar extends JFrame implements ActionListener {
 			}
 
 		}
-		
+
 		if (e.getSource() == limpar) {
 			matriculaCampo.setText("");
 			matriculaCampo.setText("");
@@ -87,7 +88,7 @@ public class TelaConsultar extends JFrame implements ActionListener {
 		// CAMPOS
 		matriculaCampo.setBounds(100, 100, 200, 30);
 		add(matriculaCampo);
-		
+
 		nomeCampo.setBounds(100, 150, 200, 30);
 		add(nomeCampo);
 		nomeCampo.setEnabled(false);
