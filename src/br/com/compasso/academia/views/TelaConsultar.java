@@ -34,6 +34,8 @@ public class TelaConsultar extends JFrame implements ActionListener {
 	JButton pesquisar = new JButton("Pesquisar");
 	JButton limpar = new JButton("Limpar campos");
 	JButton voltarMenu = new JButton("Voltar");
+	JButton alterar = new JButton("Alterar cadastro");
+	JButton deletar = new JButton("Deletar cadastro");
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -44,22 +46,49 @@ public class TelaConsultar extends JFrame implements ActionListener {
 				new TelaConsultar();
 				this.dispose();
 			} else {
-
 				Usuario usuario = new Usuario();
 				usuario.setMatricula(matriculaCampo.getText());
 				UsuarioControle.consultarUsuario(usuario);
+				// PUXA OS DADOS DA CLASSE USUARIO QUE ESTÃO SALVOS NO BANCO
 				nomeCampo.setText(usuario.getNome());
 				cpfCampo.setText(usuario.getCpf());
 				turnoCampo.setText(usuario.getTurno());
+				// HABILITA OS CAMPOS
+				nomeCampo.setEnabled(true);
+				cpfCampo.setEnabled(true);
+				turnoCampo.setEnabled(true);
+				// HABILITA OS BOTÕES
+				alterar.setEnabled(true);
+				deletar.setEnabled(true);
+				limpar.setEnabled(true);
 			}
 
 		}
 
 		if (e.getSource() == limpar) {
 			matriculaCampo.setText("");
+			nomeCampo.setText("");
+			cpfCampo.setText("");
+			turnoCampo.setText("");
+		}
+
+		if (e.getSource() == alterar) {
+			Usuario usuario = new Usuario();
+			usuario.setMatricula(matriculaCampo.getText());
+			UsuarioControle.editarUsuario(usuario);
+		}
+
+		if (e.getSource() == deletar) {
+			Usuario usuario = new Usuario();
+			usuario.setMatricula(matriculaCampo.getText());
+			UsuarioControle.deletarUsuario(usuario); 
 			matriculaCampo.setText("");
-			matriculaCampo.setText("");
-			matriculaCampo.setText("");
+			nomeCampo.setText("");
+			cpfCampo.setText("");
+			turnoCampo.setText("");
+			alterar.setEnabled(false);
+			deletar.setEnabled(false);
+			limpar.setEnabled(false);
 		}
 
 		if (e.getSource() == voltarMenu) {
@@ -105,19 +134,34 @@ public class TelaConsultar extends JFrame implements ActionListener {
 		pesquisar.setFont(fonte);
 		pesquisar.addActionListener(this);
 		setLayout(null);
-		pesquisar.setBounds(90, 300, 200, 60);
+		pesquisar.setBounds(90, 300, 200, 40);
 		add(pesquisar);
+
+		// BOTÃO ALTERAR
+		alterar.setFont(fonte);
+		alterar.addActionListener(this);
+		alterar.setBounds(90, 350, 200, 40);
+		add(alterar);
+		alterar.setEnabled(false);
+
+		// BOTÃO DELETAR
+		deletar.setFont(fonte);
+		deletar.addActionListener(this);
+		deletar.setBounds(90, 400, 200, 40);
+		add(deletar);
+		deletar.setEnabled(false);
 
 		// BOTÃO LIMPAR
 		limpar.setFont(fonte);
 		limpar.addActionListener(this);
-		limpar.setBounds(90, 370, 200, 60);
+		limpar.setBounds(90, 450, 200, 40);
 		add(limpar);
+		limpar.setEnabled(false);
 
 		// BOTÃO VOLTAR
 		voltarMenu.setFont(fonte);
 		voltarMenu.addActionListener(this);
-		voltarMenu.setBounds(90, 440, 200, 60);
+		voltarMenu.setBounds(90, 500, 200, 40);
 		add(voltarMenu);
 
 		// LEGENDA

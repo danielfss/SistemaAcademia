@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -12,12 +11,11 @@ import br.com.compasso.academia.app.Usuario;
 
 public class UsuarioControle {
 
-	private static Scanner leitura = new Scanner(System.in);
-
 	public static void cadastrarUsuario(Usuario usuario) {
+		
 		ConectaBanco conecta = new ConectaBanco();
 		conecta.conectar();
-		
+
 		try {
 			PreparedStatement pst = conecta.conn
 					.prepareStatement("INSERT INTO usuarios (nome, cpf, turno, matricula) VALUES (?,?,?,?)");
@@ -49,9 +47,9 @@ public class UsuarioControle {
 			usuario.setNome(conecta.rs.getString("nome"));
 			usuario.setCpf(conecta.rs.getString("cpf"));
 			usuario.setTurno(conecta.rs.getString("turno"));
-			System.out.println("Nome: " + usuario.getNome() + " | CPF: " + usuario.getCpf()
-					+ " | Turno: " + usuario.getTurno() + " | Matrícula: " + usuario.getMatricula());
-			
+			System.out.println("Nome: " + usuario.getNome() + " | CPF: " + usuario.getCpf() + " | Turno: "
+					+ usuario.getTurno() + " | Matrícula: " + usuario.getMatricula());
+			JOptionPane.showMessageDialog(null, "Usuário encontrado!");
 		} catch (SQLException ex) {
 			System.out.println("Falha ao pesquisar dados.\nErro: " + ex);
 			JOptionPane.showMessageDialog(null, "Erro ao pesquisar usuário.");
@@ -84,7 +82,7 @@ public class UsuarioControle {
 //			conecta.desconectar();
 //		}
 //	}
-	
+
 	public static List<Usuario> read() {
 		ConectaBanco conecta = new ConectaBanco();
 		conecta.conectar();
@@ -100,24 +98,44 @@ public class UsuarioControle {
 				usuarios.add(usuario);
 				System.out.println("Usuário listado com sucesso!");
 			}
-			
+
 		} catch (SQLException ex) {
 			System.out.println("Erro ao pesquisar dados :(");
 		} finally {
 			conecta.desconectar();
 		}
 		return usuarios;
-		
-	}
 
-	public static void deletarUsuario() {
+	}
+	
+	public static void editarUsuario(Usuario usuario){
+		
 		ConectaBanco conecta = new ConectaBanco();
 		conecta.conectar();
+		
+        try {
+            PreparedStatement pst = conecta.conn.prepareStatement("UPDATE usuario SET nome=?, cpf=?, turno=? where matricula=?"); // O comando PreparedStatement recebe a resposta da conexão com o banco de dados.
+            pst.setString(1, usuario.getNome());
+            pst.setString(2, usuario.getCpf());
+            pst.setString(3, usuario.getTurno());
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Os dados do usuários foram alterados com sucesso!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao alterar os dados do usuário!\n Erro: " + ex);
+        } finally {
+			conecta.desconectar();
+		}
+    }
+
+	public static void deletarUsuario(Usuario usuario) {
+		
+		ConectaBanco conecta = new ConectaBanco();
+		conecta.conectar();
+		
 		try {
 			PreparedStatement pst = conecta.conn.prepareStatement("DELETE FROM usuarios WHERE matricula=?");
-			System.out.println("Digite a matricula a ser deletada: ");
-			String matricula = leitura.nextLine();
-			pst.setString(1, matricula);
+			System.out.println("Digite a matricula a ser deletada: " + usuario.getMatricula());
+			pst.setString(1, usuario.getMatricula());
 			pst.executeUpdate();
 			System.out.println("Este usuário foi deletado com sucesso!\n");
 		} catch (SQLException ex) {

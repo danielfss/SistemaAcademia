@@ -1,6 +1,7 @@
 package br.com.compasso.academia.views;
 
 import java.awt.Font;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,8 +19,7 @@ import br.com.compasso.academia.services.UsuarioControle;
 public class TelaListar extends JFrame implements ActionListener {
 
 	Font fonte = new Font("Serif", Font.BOLD, 15);
-	JLabel legenda = new JLabel("Cadastro de usuários");
-	JPanel painel;
+	JLabel legenda = new JLabel("Lista de todos os usuários");
 	JTable table;
 	JButton voltarMenu = new JButton("Voltar");
 
@@ -32,24 +32,31 @@ public class TelaListar extends JFrame implements ActionListener {
 		setResizable(false); // Retira o redimensionamento da tela.
 		setVisible(true); // Torna a tela visível
 
-		// BOTÃO VOLTAR
-		voltarMenu.setFont(fonte);
-		voltarMenu.addActionListener(this);
-		voltarMenu.setBounds(350, 500, 100, 50);
-		getContentPane().add(voltarMenu);
-
 		// LEGENDA
 		legenda.setFont(fonte);
 		legenda.setBounds(200, 400, 200, 20);
 		getContentPane().add(legenda);
 
+		// BOTÃO VOLTAR
+		voltarMenu.setFont(fonte);
+		voltarMenu.addActionListener(this);
+		voltarMenu.setBounds(200, 500, 200, 50);
+		getContentPane().add(voltarMenu);
+
 		table = new JTable();
-		table.setBounds(20, 11, 505, 257);
+		table.setBounds(60, 20, 450, 250);
 		getContentPane().add(table);
+		
+		// SCROLLBAR COM AWT
+		ScrollPane scroll = new ScrollPane();
+		scroll.add(table);
+		getContentPane().add(scroll);
+		scroll.setBounds(60, 20, 450, 250);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 0, 546, 561);
+		panel.setBounds(0, 0, 600, 600);
 		getContentPane().add(panel);
+		
 		carregarTabela();
 
 	}
@@ -57,7 +64,8 @@ public class TelaListar extends JFrame implements ActionListener {
 	public void carregarTabela() {
 
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-		modelo.addColumn("Nome"); // adiciono as colunas
+		// ADICIONA AS COLUNAS
+		modelo.addColumn("Nome");
 		modelo.addColumn("CPF");
 		modelo.addColumn("Turno");
 		modelo.addColumn("Matricula");
@@ -72,7 +80,12 @@ public class TelaListar extends JFrame implements ActionListener {
 		conecta.conectar();
 
 		for (Usuario u : UsuarioControle.read()) {
-			modelo.addRow(new Object[] { u.getNome(), u.getCpf(), u.getTurno(), u.getMatricula() });
+			modelo.addRow(new Object[] {
+					u.getNome(),
+					u.getCpf(),
+					u.getTurno(),
+					u.getMatricula()
+			});
 		}
 	}
 

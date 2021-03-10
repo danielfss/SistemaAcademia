@@ -36,10 +36,6 @@ public class TelaPrincipal extends JFrame implements ActionListener {
 			new TelaListar();
 		}
 
-		if (e.getSource() == deletar) {
-			new TelaDeletar();
-		}
-
 		if (e.getSource() == sair) {
 			dispose();
 		}
@@ -65,19 +61,13 @@ public class TelaPrincipal extends JFrame implements ActionListener {
 		// BOTÃO LISTAR
 		listar.setFont(fonte);
 		listar.addActionListener(this);
-		listar.setBounds(350, 130, 200, 60);
+		listar.setBounds(325, 130, 200, 60);
 		add(listar);
-
-		// BOTÃO DELETAR
-		deletar.setFont(fonte);
-		deletar.addActionListener(this);
-		deletar.setBounds(350, 200, 200, 60);
-		add(deletar);
 
 		// BOTÃO SAIR
 		sair.setFont(fonte);
 		sair.addActionListener(this);
-		sair.setBounds(350, 270, 200, 60);
+		sair.setBounds(325, 200, 200, 60);
 		add(sair);
 
 		// LEGENDA

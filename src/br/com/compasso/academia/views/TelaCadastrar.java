@@ -119,7 +119,7 @@ public class TelaCadastrar extends JFrame implements ActionListener {
 		// LEGENDA
 		legenda.setFont(fonte);
 		add(legenda);
-		legenda.setBounds(80, 50, 200, 20);
+		legenda.setBounds(130, 50, 150, 20);
 
 		// JANELA
 		setTitle("Tela de Cadastro de usuários");
