@@ -1,5 +1,6 @@
 package br.com.compasso.academia.views;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import br.com.compasso.academia.app.Usuario;
+import br.com.compasso.academia.app.ValidaCPF;
 import br.com.compasso.academia.services.UsuarioControle;
 
 public class TelaCadastrar extends JFrame implements ActionListener {
@@ -43,16 +45,26 @@ public class TelaCadastrar extends JFrame implements ActionListener {
 				new TelaCadastrar();
 				this.dispose();
 			} else {
-				String nome = "";
-				String cpf = "";
-				String turno = "";
+				if(ValidaCPF.isCPF(cpfCampo.getText()) == true) {
+					JOptionPane.showMessageDialog(null, "O CPF é válido!");
+					
+					String nome = "";
+					String cpf = "";
+					String turno = "";
+					
 
-				Usuario usuario = new Usuario(nome, cpf, turno);
-				usuario.setNome(nomeCampo.getText());
-				usuario.setCpf(cpfCampo.getText());
-				usuario.setTurno(turno = String.valueOf(cb.getSelectedItem())); // pega o texto do combobox
+					Usuario usuario = new Usuario(nome, cpf, turno);
+					usuario.setNome(nomeCampo.getText());
+					usuario.setCpf(cpfCampo.getText());
+					ValidaCPF.imprimeCPF(cpfCampo.getText());
+					usuario.setTurno(turno = String.valueOf(cb.getSelectedItem())); // pega o texto do combobox
 
-				UsuarioControle.cadastrarUsuario(usuario);
+					UsuarioControle.cadastrarUsuario(usuario);
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "CPF inválido, digite o CPF corretamente!");
+				}
+				
 			}
 
 		}
@@ -84,16 +96,16 @@ public class TelaCadastrar extends JFrame implements ActionListener {
 		turno.setBounds(25, 200, 50, 30);
 
 		// CAMPOS
-		nomeCampo.setBounds(75, 100, 200, 30);
+		nomeCampo.setBounds(120, 100, 200, 30);
 		add(nomeCampo);
 
-		cpfCampo.setBounds(75, 150, 200, 30);
+		cpfCampo.setBounds(120, 150, 200, 30);
 		add(cpfCampo);
 
 		// COMBOBOX
 		cb.setFont(fonte);
 		add(cb);
-		cb.setBounds(75, 210, 100, 30);
+		cb.setBounds(120, 210, 100, 30);
 
 		// BOTÃO CADASTRAR
 		finalizarCadastro.setFont(fonte);
@@ -120,6 +132,10 @@ public class TelaCadastrar extends JFrame implements ActionListener {
 		legenda.setFont(fonte);
 		add(legenda);
 		legenda.setBounds(130, 50, 150, 20);
+		
+		painel.setBackground(Color.LIGHT_GRAY);
+		painel.setBounds(15, 80, 350, 180);
+		add(painel);
 
 		// JANELA
 		setTitle("Tela de Cadastro de usuários");

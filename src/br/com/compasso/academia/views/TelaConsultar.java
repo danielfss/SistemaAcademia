@@ -1,5 +1,6 @@
 package br.com.compasso.academia.views;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,9 +54,12 @@ public class TelaConsultar extends JFrame implements ActionListener {
 				nomeCampo.setText(usuario.getNome());
 				cpfCampo.setText(usuario.getCpf());
 				turnoCampo.setText(usuario.getTurno());
+				
+				// DESABILITA O CAMPO DE MATRICULA E O BOTÃO PESQUISAR
+				matriculaCampo.setEnabled(false);
+				pesquisar.setEnabled(false);
 				// HABILITA OS CAMPOS
 				nomeCampo.setEnabled(true);
-				cpfCampo.setEnabled(true);
 				turnoCampo.setEnabled(true);
 				// HABILITA OS BOTÕES
 				alterar.setEnabled(true);
@@ -101,7 +105,7 @@ public class TelaConsultar extends JFrame implements ActionListener {
 		// LABEL
 		matricula.setFont(fonte);
 		add(matricula);
-		matricula.setBounds(25, 100, 50, 30);
+		matricula.setBounds(25, 100, 80, 30);
 		nome.setFont(fonte);
 		add(nome);
 		nome.setBounds(25, 150, 50, 30);
@@ -115,18 +119,18 @@ public class TelaConsultar extends JFrame implements ActionListener {
 		turno.setBounds(25, 250, 50, 30);
 
 		// CAMPOS
-		matriculaCampo.setBounds(100, 100, 200, 30);
+		matriculaCampo.setBounds(120, 100, 200, 30);
 		add(matriculaCampo);
 
-		nomeCampo.setBounds(100, 150, 200, 30);
+		nomeCampo.setBounds(120, 150, 200, 30);
 		add(nomeCampo);
 		nomeCampo.setEnabled(false);
 
-		cpfCampo.setBounds(100, 200, 200, 30);
+		cpfCampo.setBounds(120, 200, 200, 30);
 		add(cpfCampo);
 		cpfCampo.setEnabled(false);
 
-		turnoCampo.setBounds(100, 250, 200, 30);
+		turnoCampo.setBounds(120, 250, 200, 30);
 		add(turnoCampo);
 		turnoCampo.setEnabled(false);
 
@@ -167,8 +171,13 @@ public class TelaConsultar extends JFrame implements ActionListener {
 		// LEGENDA
 		legenda.setFont(fonte);
 		add(legenda);
-		legenda.setBounds(80, 50, 200, 20);
+		legenda.setBounds(130, 50, 150, 20);
 
+		
+		painel.setBackground(Color.LIGHT_GRAY);
+		painel.setBounds(15, 140, 350, 150);
+		add(painel);
+		
 		// JANELA
 		setTitle("Tela de Cadastro de usuários");
 		setSize(400, 600);

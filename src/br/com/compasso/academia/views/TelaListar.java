@@ -13,7 +13,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import br.com.compasso.academia.app.Usuario;
-import br.com.compasso.academia.services.ConectaBanco;
 import br.com.compasso.academia.services.UsuarioControle;
 
 public class TelaListar extends JFrame implements ActionListener {
@@ -65,6 +64,7 @@ public class TelaListar extends JFrame implements ActionListener {
 
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		// ADICIONA AS COLUNAS
+
 		modelo.addColumn("Nome");
 		modelo.addColumn("CPF");
 		modelo.addColumn("Turno");
@@ -76,10 +76,7 @@ public class TelaListar extends JFrame implements ActionListener {
 		table.getColumnModel().getColumn(2).setPreferredWidth(50);
 		table.getColumnModel().getColumn(3).setPreferredWidth(50);
 
-		ConectaBanco conecta = new ConectaBanco();
-		conecta.conectar();
-
-		for (Usuario u : UsuarioControle.read()) {
+		for (Usuario u : UsuarioControle.listarUsuarios()) {
 			modelo.addRow(new Object[] {
 					u.getNome(),
 					u.getCpf(),

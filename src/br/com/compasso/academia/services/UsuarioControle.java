@@ -11,6 +11,7 @@ import br.com.compasso.academia.app.Usuario;
 
 public class UsuarioControle {
 
+	// CADASTRAR UM USUARIO
 	public static void cadastrarUsuario(Usuario usuario) {
 		
 		ConectaBanco conecta = new ConectaBanco();
@@ -36,6 +37,7 @@ public class UsuarioControle {
 		}
 	}
 
+	// CONSULTAR PELA MATRICULA
 	public static void consultarUsuario(Usuario usuario) {
 
 		ConectaBanco conecta = new ConectaBanco();
@@ -49,7 +51,7 @@ public class UsuarioControle {
 			usuario.setTurno(conecta.rs.getString("turno"));
 			System.out.println("Nome: " + usuario.getNome() + " | CPF: " + usuario.getCpf() + " | Turno: "
 					+ usuario.getTurno() + " | Matrícula: " + usuario.getMatricula());
-			JOptionPane.showMessageDialog(null, "Usuário encontrado!");
+			JOptionPane.showMessageDialog(null, "Usuário encontrado! Altere as informações necessárias.");
 		} catch (SQLException ex) {
 			System.out.println("Falha ao pesquisar dados.\nErro: " + ex);
 			JOptionPane.showMessageDialog(null, "Erro ao pesquisar usuário.");
@@ -58,32 +60,8 @@ public class UsuarioControle {
 		}
 	}
 
-//	public static void listarUsuarios() {
-//		ConectaBanco conecta = new ConectaBanco();
-//		conecta.conectar();
-//		conecta.executarSQL("SELECT * FROM usuarios");
-//		List lista = new ArrayList<>();
-//		try {
-//			conecta.rs.first();
-//			do {
-//				Usuario usuario = new Usuario();
-//				usuario.setNome(conecta.rs.getString("nome"));
-//				usuario.setCpf(conecta.rs.getString("cpf"));
-//				usuario.setTurno(conecta.rs.getString("turno"));
-//				usuario.setMatricula(conecta.rs.getString("matricula"));
-////				System.out.println(
-////						"Nome: " + conecta.rs.getString("nome") + " | CPF: " + conecta.rs.getString("cpf") + " | Turno: "
-////								+ conecta.rs.getString("turno") + " | Matrícula: " + conecta.rs.getString("matricula"));
-//				lista.add(usuario);
-//			} while (conecta.rs.next());
-//		} catch (SQLException ex) {
-//			System.out.println("Erro ao pesquisar dados :(");
-//		} finally {
-//			conecta.desconectar();
-//		}
-//	}
-
-	public static List<Usuario> read() {
+	// LISTAR TODOS OS USUARIOS NUMA TABELA
+	public static List<Usuario> listarUsuarios() {
 		ConectaBanco conecta = new ConectaBanco();
 		conecta.conectar();
 		List<Usuario> usuarios = new ArrayList<>();
@@ -108,6 +86,7 @@ public class UsuarioControle {
 
 	}
 	
+	// ALTERAR OS DADOS DE UM USUARIO
 	public static void editarUsuario(Usuario usuario){
 		
 		ConectaBanco conecta = new ConectaBanco();
@@ -127,6 +106,7 @@ public class UsuarioControle {
 		}
     }
 
+	// DELETAR UM USUARIO
 	public static void deletarUsuario(Usuario usuario) {
 		
 		ConectaBanco conecta = new ConectaBanco();
@@ -144,5 +124,7 @@ public class UsuarioControle {
 			conecta.desconectar();
 		}
 	}
+	
+
 
 }
