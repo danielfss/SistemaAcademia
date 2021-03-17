@@ -93,12 +93,19 @@ public class UsuarioControle {
 		conecta.conectar();
 		
         try {
-            PreparedStatement pst = conecta.conn.prepareStatement("UPDATE usuario SET nome=?, cpf=?, turno=? where matricula=?"); // O comando PreparedStatement recebe a resposta da conexão com o banco de dados.
+            PreparedStatement pst = conecta.conn.prepareStatement("UPDATE usuarios SET nome=?, cpf=?, turno=? WHERE matricula=?");
             pst.setString(1, usuario.getNome());
             pst.setString(2, usuario.getCpf());
             pst.setString(3, usuario.getTurno());
+            pst.setString(4, usuario.getMatricula());
             pst.execute();
-            JOptionPane.showMessageDialog(null, "Os dados do usuários foram alterados com sucesso!");
+            JOptionPane.showMessageDialog(null, "Os dados do usuários foram alterados com sucesso!\n" + 
+            		"Nome: " + usuario.getNome() + 
+            		" | CPF: " + usuario.getCpf() + 
+            		" | Turno: " +  usuario.getTurno() + 
+            		" | Matrícula: " + usuario.getMatricula());
+            System.out.println("Nome: " + usuario.getNome() + " | CPF: " + usuario.getCpf() + " | Turno: "
+					+ usuario.getTurno() + " | Matrícula: " + usuario.getMatricula());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao alterar os dados do usuário!\n Erro: " + ex);
         } finally {
@@ -118,6 +125,7 @@ public class UsuarioControle {
 			pst.setString(1, usuario.getMatricula());
 			pst.executeUpdate();
 			System.out.println("Este usuário foi deletado com sucesso!\n");
+			JOptionPane.showMessageDialog(null, "Este usuário foi deletado com sucesso!");
 		} catch (SQLException ex) {
 			System.out.println("Erro ao deletar dados.\nErro: " + ex);
 		} finally {
@@ -125,6 +133,26 @@ public class UsuarioControle {
 		}
 	}
 	
+	// VERIFICAR SE O CPF JÁ ESTÁ REGISTRADO NO BANCO
+	public static boolean verificarCPF(Usuario usuario) {
+		ConectaBanco conecta = new ConectaBanco();
+		conecta.conectar();
+		conecta.executarSQL("SELECT * FROM usuarios WHERE cpf='" + usuario.getCpf() + "'");
+		
+		try {
+			if(conecta.rs.first()) {
+				return true;
+			} else {
+				return false;
+			}
 
+		} catch (SQLException ex) {
+			System.out.println("Erro na consulta do CPF.\nErro: " + ex);
+			return false;
+		} finally {
+			conecta.desconectar();
+		}
+		
+	}
 
 }

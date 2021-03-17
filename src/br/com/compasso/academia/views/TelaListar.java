@@ -21,6 +21,7 @@ public class TelaListar extends JFrame implements ActionListener {
 	JLabel legenda = new JLabel("Lista de todos os usuários");
 	JTable table;
 	JButton voltarMenu = new JButton("Voltar");
+	JPanel panel;
 
 	public TelaListar() {
 		// JANELA
@@ -52,7 +53,7 @@ public class TelaListar extends JFrame implements ActionListener {
 		getContentPane().add(scroll);
 		scroll.setBounds(60, 20, 450, 250);
 
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBounds(0, 0, 600, 600);
 		getContentPane().add(panel);
 		
@@ -64,7 +65,9 @@ public class TelaListar extends JFrame implements ActionListener {
 
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		// ADICIONA AS COLUNAS
-
+//		Object[] colunas = {"nome", "cpf", "turno", "matricula"};
+//		modelo.setColumnIdentifiers(colunas);
+//		table.setModel(modelo);
 		modelo.addColumn("Nome");
 		modelo.addColumn("CPF");
 		modelo.addColumn("Turno");
@@ -83,6 +86,7 @@ public class TelaListar extends JFrame implements ActionListener {
 					u.getTurno(),
 					u.getMatricula()
 			});
+			panel.repaint();
 		}
 	}
 

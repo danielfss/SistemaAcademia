@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import br.com.compasso.academia.app.Usuario;
+import br.com.compasso.academia.app.ValidaCPF;
 import br.com.compasso.academia.services.UsuarioControle;
 
 public class TelaConsultar extends JFrame implements ActionListener {
@@ -60,6 +61,7 @@ public class TelaConsultar extends JFrame implements ActionListener {
 				pesquisar.setEnabled(false);
 				// HABILITA OS CAMPOS
 				nomeCampo.setEnabled(true);
+				cpfCampo.setEnabled(true);
 				turnoCampo.setEnabled(true);
 				// HABILITA OS BOTÕES
 				alterar.setEnabled(true);
@@ -70,22 +72,32 @@ public class TelaConsultar extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource() == limpar) {
+			matriculaCampo.setEnabled(true);
 			matriculaCampo.setText("");
 			nomeCampo.setText("");
 			cpfCampo.setText("");
 			turnoCampo.setText("");
+			alterar.setEnabled(false);
+			deletar.setEnabled(false);
+			limpar.setEnabled(false);
 		}
 
 		if (e.getSource() == alterar) {
 			Usuario usuario = new Usuario();
 			usuario.setMatricula(matriculaCampo.getText());
-			UsuarioControle.editarUsuario(usuario);
+			usuario.setNome(nomeCampo.getText());
+			usuario.setCpf(cpfCampo.getText());
+			usuario.setTurno(turnoCampo.getText());
+			UsuarioControle.editarUsuario(usuario);		
+			
 		}
 
 		if (e.getSource() == deletar) {
 			Usuario usuario = new Usuario();
 			usuario.setMatricula(matriculaCampo.getText());
-			UsuarioControle.deletarUsuario(usuario); 
+			UsuarioControle.deletarUsuario(usuario);
+			
+			matriculaCampo.setEnabled(true);
 			matriculaCampo.setText("");
 			nomeCampo.setText("");
 			cpfCampo.setText("");

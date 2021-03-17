@@ -33,6 +33,7 @@ public class ConectaBanco {
 	public void desconectar() {
 		try {
 			conn.close(); // fecha a conexão com o BD
+			System.out.println("Desconectado com sucesso!");
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "Erro ao fechar a conexão com o BD!\nErro: " + ex.getMessage());
 			System.out.println("Erro ao fechar a conexão com o BD!\nErro: " + ex.getMessage());
