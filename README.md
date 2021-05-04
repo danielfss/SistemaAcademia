@@ -1,5 +1,5 @@
 # Projeto 02 - SistemaAcademia
-### Este projeto foi feito com o intuito de aprimorar o conhecimento em Java, o pacote Swing e conexão com banco de dados (PostgreSQL).
+### Este projeto foi feito com o intuito de aprimorar o conhecimento em Java, o pacote Swing e a conexão com banco de dados (PostgreSQL).
 Durante o programa de bolsas da Compasso UOL, nosso instrutor Víctor Romário, passou um cenário para colocarmos em prática o conhecimento obtido através dos cursos.
 
 
