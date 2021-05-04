@@ -14,3 +14,4 @@ A aplicação deve receber a matrícula e deve exibir o nome e o turno de treino
 
 ### LISTA DE PESSOAS MATRICULADAS
 Ao selecionar esta opção, o programa deve exibir a lista de todos os usuários cadastrados no banco.
+![Tela Principal](https://user-images.githubusercontent.com/16904654/117059817-9532d180-acf6-11eb-8e8c-982a8bf9ff54.png)
