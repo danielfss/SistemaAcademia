@@ -4,11 +4,6 @@ Durante o programa de bolsas da Compasso UOL, nosso instrutor Víctor Romário, 
 
 
 ## Cadastro de usuários em um Banco de Dados
-Crie uma aplicação, utilizando a linguagem Java e o Paradigma Orientado a Objetos, para cadastro
-de usuários em uma academia. Quando o programa for executado deve pedir:
-Digite a) para cadastrar novo usuário
-Digite b) para consultar matrícula
-Digite C) para exibir lista de pessoas matriculadas
 
 ### CADASTRO DE USUÁRIO
 As informações que serão cadastradas são: nome , CPF , turno de treino . O programa irá gerar uma
